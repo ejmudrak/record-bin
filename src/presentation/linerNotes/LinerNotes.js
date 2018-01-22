@@ -26,7 +26,7 @@ const record = {
             "Barely out of his teens, Chancelor Bennett has already transformed himself from a suspended high school student to the young Chicago rapper universally adored among 'sportos, motorheads, geeks, sluts, bloods, wasteoids, dweebies, and dickheads.' The release of last week’s Acid Rap triggered such intense demand that it crashed both hosting site Audiomack and Windy City rap agora Fake Shore Drive. Cops recently banned Chance from two separate high school parking lots after mobs formed once kids discovered he was on campus.", 
             "But life rarely parallels a John Hughes script. Unlike Bueller, Chance actually got caught skipping school, a 10-day sabbatical that inspired his first mixtape, last year’s #10Day. His neighborhood of West Chatham might not be the worst in a city whose alias is Chiraq, but it’s still South Side and far removed from baronial Highland Park. The drugs are high-velocity, the slang is crisper, and in this scenario, Cameron dies."
             ],
-  "comments": "This album is so good!",
+  "comments": ["This album is so good!", "Chance is the best."]
 };
 
 const user = {
