@@ -1,15 +1,11 @@
 {
   "name": "record-bin",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ejmudrak/record-bin.git"
-  },
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "dependencies": {
     "eslint-plugin-flowtype": "^2.41.0",
-    "firebase": "^4.9.0",
-    "firebase-admin": "^5.8.1",
+    "firebase": "^4.3.1",
+    "firebase-admin": "^5.5.1",
     "history": "^4.7.2",
     "lodash": "^4.17.4",
     "material-ui": "^1.0.0-beta.30",
@@ -28,7 +24,7 @@
     "react-instantsearch-theme-algolia": "^4.4.1",
     "react-masonry-infinite": "^1.2.2",
     "react-redux": "^5.0.6",
-    "react-redux-firebase": "^2.0.2",
+    "react-redux-firebase": "^2.0.0",
     "react-router-dom": "^4.2.2",
     "react-router-redux": "^4.0.8",
     "react-scripts": "1.0.13",
@@ -50,14 +46,12 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "lint": "./node_modules/.bin/eslint src/**/*.js",
-    "deploy": "gh-pages -d build"
+    "lint": "./node_modules/.bin/eslint src/**/*.js"
   },
   "devDependencies": {
     "eslint-config-airbnb": "^15.1.0",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jsx-a11y": "^5.1.1",
-    "eslint-plugin-react": "^7.5.1",
-    "gh-pages": "^1.1.0"
+    "eslint-plugin-react": "^7.5.1"
   }
 }
