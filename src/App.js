@@ -24,12 +24,12 @@ class App extends React.Component {
         <div className='midCard' />
 
         <nav className='appBar'>
-          <a href='#'>
+          <a href='/'>
             <img alt="album" className='logo' src={Logo} />
           </a>
-          <Link to="/"><a className='barItem' href='#'>Record Bin</a></Link>
-          <a className='barItem' href='#'>Discover</a>
-          <a className='barItem' href='#'>Feed</a>
+          <Link to="/"><a className='barItem' href='/'>Record Bin</a></Link>
+          <a className='barItem' href='/'>Discover</a>
+          <a className='barItem' href='/'>Feed</a>
         </nav>
 
         <Route exact path="/" component={Home} />

@@ -9,11 +9,10 @@ import Grid from 'material-ui/Grid'
 import Paper from 'material-ui/Paper'
 import List, {
   ListItem,
-  ListItemIcon,
   ListItemText,
   ListItemSecondaryAction,
 } from 'material-ui/List'
-import Typography from 'material-ui/Typography'
+// import Typography from 'material-ui/Typography'
 import Icon from 'material-ui/Icon'
 import IconButton from 'material-ui/IconButton'
 import Divider from 'material-ui/Divider'
@@ -39,14 +38,8 @@ const user = {
 
 class LinerNotes extends React.Component {
 
-  state = {
-    dense: false,
-    secondary: false,
-  };
-
   render () {
     const { classes } = this.props;
-    const { secondary } = this.state;
 
     return (
       <div>
