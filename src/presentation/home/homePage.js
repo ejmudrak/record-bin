@@ -1,13 +1,10 @@
-/* page.js -- home
-Author: Erik Mudrak - Spring 2017 - Senior Seminar project
-Description: Implements home page of web app
-*/
-
 // General Imports:
 import React from 'react';
+import { Link } from 'react-router-dom'
 
 // Style and images:
 import './style.css';
+import Record from './record.png';
 import Chance from './chance.png';
 import Kanye from './kanye.jpg';
 import Paak from './paak.png';
@@ -15,24 +12,7 @@ import Frank from './frank.jpg';
 import GlassAnimals from './glass_animals.jpg';
 
 // Material UI imports
-// import Dialog from 'material-ui/Dialog';
-
-const records = [
-  {
-    "album": "Coloring Book",
-    "artist": "Chance The Rapper",
-    "tracks": [ "One","Two","Three","Four"],
-    "notes": "This album is so happy!"
-  },
-  {
-    "album": "Late Registration",
-    "artist": "Kanye West",
-    "tracks": [ "One","Two","Three","Four"],
-    "notes": "This album is very good!"
-  },
-
-];
-
+import Grid from 'material-ui/Grid'
 
 /* IDEAS & TO-DO:
     + Top 5, Top Tier, and Other Favorites bins:
@@ -51,26 +31,49 @@ const records = [
 */
 
 
-export default class Bin extends React.Component {
-
-  constructor(props) {
-    super(props);
-  }
+export default class RecordBin extends React.Component {
 
   render () {
-    return(
-      <div className='binContainer' >
-          <div className='binFront'></div>
-          <div className='binBack'>
-            <div className='records'>
-                <Album className='album' image={Chance} />
-                <Album className='album'image={Kanye} />
-                <img alt="album" className='album' src={Paak} />
-                <img alt="album" className='album' src={Frank} />
-                <img alt="album" className='album' src={GlassAnimals} />
+    return (
+      <div>
+        <Grid container>
+          <Grid item xs={ 6 }>
+            <div className='heading'>Your Record Bin</div>
+          </Grid>
+
+          <Grid item xs={ 6 } style={{ marginTop: '5em' }}>
+            <div className='recordImageWrapper'>
+              <img alt="record" className='recordImage' src={Record} />
             </div>
-        </div>
-        {/* <LinerNotes className={styles.currentAlbumContainer} openAlbum={this.openAlbum}/> */}
+          </Grid>
+
+          <Grid item xs={ 12 }>
+              <div className='binFront'></div>
+              <div className='binBack'>
+                <Grid container justify='center' spacing={ 24 } style={{ marginTop: '40px' }}>
+                  <Grid item xs={ 2.4 }>
+                    <Link to="liner-notes"><Album className='album' image={Chance} /></Link>
+                  </Grid>
+
+                  <Grid item xs={ 2.4 }>
+                    <Link to="liner-notes"><Album className='album' image={Kanye} /></Link>
+                  </Grid>
+
+                  <Grid item xs={ 2.4 }>
+                    <Link to="liner-notes"><Album className='album' image={Paak} /></Link>
+                  </Grid>
+
+                  <Grid item xs={ 2.4 }>
+                    <Link to="liner-notes"><Album className='album' image={Frank} /></Link>
+                  </Grid>
+
+                  <Grid item xs={ 2.4 }>
+                    <Link to="liner-notes"><Album className='album' image={GlassAnimals} /></Link>
+                  </Grid>
+                </Grid>
+              </div>
+            </Grid>
+        </Grid>
       </div>
     );
   }

@@ -5,8 +5,39 @@
   src: url('../../assets/fonts/Galano Grotesque DEMO Bold.otf');
 }
 
-.binContainer {
+html {
+    overflow-y: hidden;
+}
+
+.heading {
+    font-family: 'Galano', Lato;
+    color: #7a21ff;
+    color: #fff;
+    font-size: 4em;
+    margin-left: 1.5em;
+}
+
+.recordImageContainer {
     width: 100%;
+    position: relative;
+    z-index: 0;
+}
+
+.recordImage {
+    float: right;
+    margin-right: 2em;
+    margin-top: -9em;
+    animation: spin 5s infinite linear;
+    border-radius: 100%;
+    box-shadow: 0px 0px 100px 1px #888888;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    from { transform: rotate(360deg); }
+}
+
+.binContainer {
     margin-top: 5em;
 }
 
@@ -17,8 +48,8 @@
     height: 8em;
 
     position: relative;
-    z-index: 10;
-    top: 17.5em;
+    z-index: 2;
+    /*top: 17.5em;*/
 
     border-radius: 3px;
     background-color: #fff;
@@ -38,7 +69,7 @@
 
     position: relative;
     z-index: 1;
-    bottom: 7.5em;
+    bottom: 25em;
 
     border-radius: 3px;
     background-color: #f2f2f2;
@@ -51,23 +82,15 @@
 
 }
 
-.binSide {
-
-}
-
 .records {
     margin-top: 2em;
-    margin-left: 5em;
+    width: 100%;
     position: relative;
     z-index: 1;
-    display: flex;
-    justify-content: flex-start;
 }
 
 .album {
-    /*padding: 1em;*/
     border-radius: 5px;
-    margin: 1.5em;
     width: 14em;
     height: 14em;
     box-shadow: 0 20px 40px rgba(0,0,0,0.45), 0 6px 6px rgba(0,0,0,0.25);
@@ -84,31 +107,6 @@
     width: 16em;
     height: 16em;
 }
-
-/* ------------ Current Album Styles ----------- */
-
-.currentAlbumContainer {
-  position: absolute;
-  z-index: 3;
-  top: -9.5em;
-  left: 0;
-  right: 0;
-  left: -6em;
-  width: 97.5rem;
-  height: 85vh;
-  display: block;
-  margin: auto;
-
-  background-color: #fff;
-  border-radius: 5px;
-  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
-}
-
-.closeButton {
-    float: right;
-    margin: 2em;
-}
-
 
 /* Styling for responsiveness */
 @media (max-device-width: 1000px){

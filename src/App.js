@@ -2,23 +2,19 @@ import React from 'react'
 import { Route, Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { firebaseConnect } from 'react-redux-firebase'
-import { get } from 'lodash'
-import PropTypes from 'prop-types'
+// import { get } from 'lodash'
+// import PropTypes from 'prop-types'
 
 // Page components
-import Bin from './presentation/home/homePage'
+import Home from './presentation/home/homePage'
+import LinerNotes from './containers/linerNotes/LinerNotes'
 
 // Style and images
 import './App.css'
 import RecordStore from './rs3.jpg';
-import Record from './record.png';
 import Logo from './logo.png';
 
 class App extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-
 
   render() {
     return (
@@ -31,34 +27,27 @@ class App extends React.Component {
           <a href='#'>
             <img alt="album" className='logo' src={Logo} />
           </a>
-          <a className='barItem' href='#'>Bin</a>
+          <Link to="/"><a className='barItem' href='#'>Record Bin</a></Link>
           <a className='barItem' href='#'>Discover</a>
           <a className='barItem' href='#'>Feed</a>
         </nav>
 
-        <div className='heading'>Your Record Bin</div>
-        <div className='recordImageWrapper'>
-          <img alt="record" className='recordImage' src={Record} />
-        </div>
-
-        <Bin />
-
-        {/*<Route exact path="/" component={Home} />*/}
+        <Route exact path="/" component={Home} />
+        <Route exact path="/liner-notes" component={LinerNotes} />
       </div>
     )
   }
 }
 
-App.propTypes = {
+// App.propTypes = {
 
-}
+// }
 
-App.defaultProps = {
+// App.defaultProps = {
 
-}
+// }
 
 const wrappedApp = firebaseConnect((props) => {
-  const uid = get(props, 'firebase.auth.uid', '')
 })(App)
 
 export default withRouter(connect(
