@@ -1,0 +1,113 @@
+@import url('https://fonts.googleapis.com/css?family=Lato|Palanquin+Dark|Slabo+27px');
+
+html, body {
+    margin: 0;
+    padding: 0;
+    max-width: 100%;
+    /*overflow-x: hidden; */
+}
+
+p, a {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1em;
+    font-weight: 500;
+    /*margin-top: 0;*/
+}
+
+
+.midCard {
+  width: 60%;
+  height: 100%;
+  position: absolute;
+  z-index: -1;
+  right: 0;
+  background-color: #fff;
+  opacity: 0.97;
+
+  /* clip path: TL, TR, BR, BL order. W x H */
+
+  /* right side */
+  -webkit-clip-path: polygon(20% 0, 100% 0%, 100% 100%, 0% 100%);
+  clip-path: polygon(20% 0, 100% 0%, 100% 100%, 0% 100%);
+
+  /* left side */
+  /*-webkit-clip-path: polygon(0 0, 80% 0%, 100% 100%, 0% 100%);
+  clip-path: polygon(0 0, 80% 0%, 100% 100%, 0% 100%);*/
+}
+
+.appBar {
+    margin: 2em;
+    margin-top: 0;
+  }
+
+.barItem {
+    font-size: 1.25em;
+    font-family: 'Galano', Lato;
+    text-decoration: none;
+    color: #7a21ff;
+    color: #fff;
+    margin-left: 3em;
+
+    position: relative;
+    top: -1.5em;
+
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+}
+
+.backgroundImage {
+  position: absolute;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+  filter: grayscale(1) contrast(200%);
+}
+
+.overlay {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  z-index: -1;
+  /*background-image: linear-gradient(to bottom, #7a21ff, #7a21ff);*/
+  background-image: linear-gradient(to bottom, #6600ff, #6600ff);
+  opacity: 0.65;
+}
+
+
+.recordImageContainer {
+    width: 100%;
+    position: relative;
+    z-index: 0;
+}
+
+.recordImage {
+    float: right;
+    margin-right: 2em;
+    margin-top: -9em;
+    animation: spin 5s infinite linear;
+    border-radius: 100%;
+    box-shadow: 0px 0px 100px 1px #888888;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    from { transform: rotate(360deg); }
+}
+
+.logo {
+    width: 4rem;
+    margin-top: 1em;
+}
+
+.heading {
+    font-family: 'Galano', Lato;
+    color: #7a21ff;
+    color: #fff;
+    font-size: 4em;
+    margin-left: 1.5em;
+}
+

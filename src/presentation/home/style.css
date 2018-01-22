@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css?family=Lato|Poppins');
+
+@font-face {
+  font-family: 'Galano';
+  src: url('../../assets/fonts/Galano Grotesque DEMO Bold.otf');
+}
+
+.binContainer {
+    width: 100%;
+    margin-top: 5em;
+}
+
+.binFront {
+    display: block;
+    margin: auto;
+    width: 92%;
+    height: 8em;
+
+    position: relative;
+    z-index: 10;
+    top: 17.5em;
+
+    border-radius: 3px;
+    background-color: #fff;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+
+    background-image: url('./wood3.jpg');
+    background-size: cover;
+    background-position: center;
+    transform: rotate(180deg);
+}
+
+.binBack {
+    display: block;
+    margin: auto;
+    width: 90%;
+    height: 20em;
+
+    position: relative;
+    z-index: 1;
+    bottom: 7.5em;
+
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+
+    background-image: url('./wood3.jpg');
+    background-size: cover;
+    background-position: center;
+
+
+}
+
+.binSide {
+
+}
+
+.records {
+    margin-top: 2em;
+    margin-left: 5em;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.album {
+    /*padding: 1em;*/
+    border-radius: 5px;
+    margin: 1.5em;
+    width: 14em;
+    height: 14em;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.45), 0 6px 6px rgba(0,0,0,0.25);
+
+    transition: margin-top 0.5s, width 0.5s, height 0.5s;
+    transition-timing-function: ease;
+}
+
+.album:hover {
+    margin-top: -1em;
+}
+
+.album:active {
+    width: 16em;
+    height: 16em;
+}
+
+/* ------------ Current Album Styles ----------- */
+
+.currentAlbumContainer {
+  position: absolute;
+  z-index: 3;
+  top: -9.5em;
+  left: 0;
+  right: 0;
+  left: -6em;
+  width: 97.5rem;
+  height: 85vh;
+  display: block;
+  margin: auto;
+
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+.closeButton {
+    float: right;
+    margin: 2em;
+}
+
+
+/* Styling for responsiveness */
+@media (max-device-width: 1000px){
+
+}

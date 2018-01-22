@@ -1,0 +1,20 @@
+
+/* Gets rid of yellow background highlight that covers component in Chrome's autocomplete */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+form {
+    margin: 0 0 0 0;
+}
+
+#actionContainer{
+    text-align: center;
+}
+
+#forgotPasswordContainer {
+    margin: 20px 0 0 0;
+}
