@@ -1,7 +1,8 @@
 import React from 'react'
-import { Route, Link, withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
-import { firebaseConnect } from 'react-redux-firebase'
+import { Route, Link } from 'react-router-dom'
+// import { Route, Link, withRouter } from 'react-router-dom'
+// import { connect } from 'react-redux'
+// import { firebaseConnect } from 'react-redux-firebase'
 // import { get } from 'lodash'
 // import PropTypes from 'prop-types'
 
@@ -28,8 +29,8 @@ class App extends React.Component {
             <img alt="album" className='logo' src={Logo} />
           </a>
           <Link to="/"><a className='barItem' href='/'>Record Bin</a></Link>
-          <a className='barItem' href='/'>Discover</a>
-          <a className='barItem' href='/'>Feed</a>
+          <Link to="/"><a className='barItem' href='/'>Discover</a></Link>
+          <Link to="/"><a className='barItem' href='/'>Feed</a></Link>
         </nav>
 
         <Route exact path="/" component={Home} />
@@ -47,9 +48,11 @@ class App extends React.Component {
 
 // }
 
-const wrappedApp = firebaseConnect((props) => {
-})(App)
+// const wrappedApp = firebaseConnect((props) => {
+// })(App)
 
-export default withRouter(connect(
-  state => ({ firebase: state.firebase,  }),
-)(wrappedApp))
+// export default withRouter(connect(
+//   state => ({ firebase: state.firebase,  }),
+// )(wrappedApp))
+
+export default App

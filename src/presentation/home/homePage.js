@@ -30,8 +30,7 @@ import Grid from 'material-ui/Grid'
     + Use JS map fn for JSON albums to displayed
 */
 
-
-export default class RecordBin extends React.Component {
+class RecordBin extends React.Component {
 
   render () {
     return (
@@ -88,3 +87,5 @@ const Album = (props) => {
     </div>
   );
 }
+
+export default RecordBin

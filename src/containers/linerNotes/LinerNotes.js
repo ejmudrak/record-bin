@@ -1,7 +1,7 @@
 import React from 'react'
 // import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
+// import { connect } from 'react-redux'
+// import { withRouter } from 'react-router-dom'
 import LinerNotes from '../../presentation/linerNotes/LinerNotes'
 
 class LinerNotesContainer extends React.Component {
@@ -15,6 +15,8 @@ class LinerNotesContainer extends React.Component {
 // LinerNotesContainer.propTypes = {
 // }
 
-export default withRouter(connect(
-  state => ({ home: state.home }),
-)(LinerNotesContainer))
+// export default withRouter(connect(
+//   state => ({ home: state.home }),
+// )(LinerNotesContainer))
+
+export default LinerNotesContainer
