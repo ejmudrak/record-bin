@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Lato|Poppins');
+@import url('https://fonts.googleapis.com/css?family=Sedgwick+Ave|Sue+Ellen+Francisco');
 
 @font-face {
   font-family: 'Galano';
@@ -6,7 +7,7 @@
 }
 
 html {
-    overflow-y: hidden;
+    overflow: auto;
 }
 
 .heading {
@@ -61,6 +62,27 @@ html {
     transform: rotate(180deg);
 }
 
+.binLabelContainer {
+    /* Positioning is inverted! */
+    transform: rotate(180deg);
+    width: auto;
+    min-width: 150px;
+    height: 50%;
+    background-color: #fff;
+    float: right;
+    margin-top: 20px;
+    text-align: center;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.binLabelText {
+    font-family: Sedgwick Ave, sans-serif;
+    font-size: 1.5em;
+    display: block;
+    padding: 20px;
+}
+
 .binBack {
     display: block;
     margin: auto;
@@ -78,8 +100,6 @@ html {
     background-image: url('./wood3.jpg');
     background-size: cover;
     background-position: center;
-
-
 }
 
 .records {
