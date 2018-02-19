@@ -1,2 +1,3 @@
 export const HOME_PAGE_BUTTON_PRESSED = 'HOME_PAGE_BUTTON_PRESSED';
-export const GET_RECORDS = 'GET_RECORDS';
+export const SIGN_IN = 'SIGN_IN';
+export const SIGN_UP = 'SIGN_UP';

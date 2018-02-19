@@ -7,12 +7,7 @@ html, body {
     max-width: 100%;
 }
 
-p, a {
-    font-family: 'Roboto', sans-serif;
-    font-size: 1em;
-    font-weight: 500;
-    /*margin-top: 0;*/
-}
+a { text-decoration: none; }
 
 .logo {
     width: 4rem;
@@ -39,28 +34,30 @@ p, a {
   clip-path: polygon(0 0, 80% 0%, 100% 100%, 0% 100%);*/
 }
 
-.appBar {
-    margin: 2em;
-    margin-top: 0;
-  }
+.accountIcon {
+  margin-top: 10px;
+  cursor: pointer;
+  border: 3px solid #7a21ff !important;
+  width: 60px !important;
+  height: 60px !important;
+}
 
-.barItem {
-    font-size: 1.25em;
-    font-family: 'Galano', Lato;
-    text-decoration: none;
-    color: #7a21ff;
-    color: #fff;
-    margin-left: 3em;
+.avatar-wrapper {
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+}
 
-    position: relative;
-    top: -1.5em;
-
+/* prevents Avatar component images from stretching */
+.avatar {
+  object-fit: cover;
+  border: 0;
 }
 
 .container {
-    width: 100%;
-    height: 100%;
-    position: relative; /* remove to get rid of bg stretch */
+  width: 100%;
+  height: 100%;
+  position: relative; /* remove to get rid of bg stretch */
 }
 
 .backgroundImage {
@@ -81,9 +78,5 @@ p, a {
   /*background-image: linear-gradient(to bottom, #7a21ff, #7a21ff);*/
   background-image: linear-gradient(to bottom, #6600ff, #6600ff);
   opacity: 0.65;
-  background-attachment: 
-
+  background-attachment:
 }
-
-
-
