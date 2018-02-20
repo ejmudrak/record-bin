@@ -36,7 +36,6 @@ class TextInput extends Component {
     let element;
 
     if (this.shouldDisplayError()) {
-
       element = (
         <FormHelperText className={ errorClassName } error>
           { error }

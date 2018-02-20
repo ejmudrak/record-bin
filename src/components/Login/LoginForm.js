@@ -7,7 +7,7 @@ import SocialLoginButton from 'react-social-login-buttons/lib/buttons/SocialLogi
 import { Link } from 'react-router-dom';
 
 // MUI Components
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from 'material-ui';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, withMobileDialog } from 'material-ui';
 import { withStyles } from 'material-ui/styles';
 
 import TextInput from '../TextInput';
@@ -59,7 +59,7 @@ class LoginForm extends React.Component {
   }
 
   render() {
-    const { account, classes, handleSubmit, error, pristine, submitting, sendSubmit, signInWithFacebook, signInWithGoogle } = this.props;
+    const { account, classes, fullScreen, handleSubmit, error, pristine, submitting, sendSubmit, signInWithFacebook, signInWithGoogle } = this.props;
     const socialSignInError = get(account, 'socialSignInError.code');
     const signInError = get(account, 'signInError.code');
 
@@ -70,6 +70,7 @@ class LoginForm extends React.Component {
         <Dialog style={ { display: 'flex', justifyContent: 'center', alignItems: 'center' } }
           open={ this.state.open }
           maxWidth={ false }
+          fullScreen={ fullScreen }
           onClose={ this.handleClose }>
 
           <DialogTitle>Login</DialogTitle>
@@ -161,6 +162,7 @@ LoginForm.propTypes = {
   account:            PropTypes.instanceOf(Object).isRequired,
   cancelSignInUpForm: PropTypes.func.isRequired,
   classes:            PropTypes.instanceOf(Object).isRequired,
+  fullScreen:         PropTypes.bool.isRequired,
   signInWithGoogle:   PropTypes.func.isRequired,
   signInWithFacebook: PropTypes.func.isRequired,
   handleSubmit:       PropTypes.func.isRequired,
@@ -173,4 +175,4 @@ const LoginFormEnriched = reduxForm({
   form: 'signIn',
 })(styleWrappedLoginForm);
 
-export default LoginFormEnriched;
+export default withMobileDialog()(LoginFormEnriched);

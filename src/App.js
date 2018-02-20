@@ -196,7 +196,7 @@ const styles = theme => ({
   appBarRoot: {
     backgroundColor: 'transparent',
     boxShadow:       'none',
-    marginBottom:    50,
+    marginBottom:    10,
     position:        'relative',
   },
 

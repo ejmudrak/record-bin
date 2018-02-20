@@ -7,15 +7,10 @@ import PropTypes from 'prop-types';
 // Material UI imports
 import Grid from 'material-ui/Grid';
 
-// Style and images:
+// Local imports:
 import './Profile.css';
 import Record from './assets/record.png';
-import Chance from './assets/chance.png';
-import Kanye from './assets/kanye.jpg';
-import Paak from './assets/paak.png';
-import Frank from './assets/frank.jpg';
-import GlassAnimals from './assets/glass_animals.jpg';
-
+import RecordSlider from './components/RecordSlider';
 
 /* IDEAS & TO-DO:
     + Top 5, Top Tier, and Other Favorites bins:
@@ -55,6 +50,7 @@ const bins = [
   },
 ];
 
+
 const RecordBin = (props) => {
   const { data } = props;
   const records = get(data, 'records', {});
@@ -65,121 +61,50 @@ const RecordBin = (props) => {
   return (
     <div>
       <Grid container>
+
         <Grid item xs={ 6 }>
           <div className='heading'>Your Record Bin</div>
         </Grid>
 
-        <Grid item xs={ 6 } style={ { marginTop: '5em' } }>
-          <div className='recordImageWrapper'>
+        <Grid item xs={ 6 }>
+
+          <div>
             <img alt='record' className='recordImage' src={ Record } />
           </div>
+
         </Grid>
 
-        <Grid item xs={ 12 } style={ { marginTop: '-2em' } }>
+        <Grid item xs={ 12 } style={ { marginTop: 10 } }>
+
+          <div className='binFront'>
+            <div className='binLabelContainer'>
+              <div className='binLabelText'>{ bins[0].label }</div>
+            </div>
+          </div>
+
+          <div className='binBack'>
+            <RecordSlider props={ { records, albumTitle } } />
+          </div>
+
+        </Grid>
+
+        <Grid item xs={ 12 } style={ { marginTop: 10 } }>
+
           <div className='binFront'>
             <div className='binLabelContainer'>
               <div className='binLabelText'>{ albumTitle }</div>
             </div>
           </div>
+
           <div className='binBack'>
-            <Grid container spacing={ 8 } justify='center' style={ { marginTop: 50 } }>
-              <Grid item xs={ 3 }>
-                <Link to='liner-notes'><Album className='album' image={ Chance } /></Link>
-              </Grid>
-
-              <Grid item xs={ 3 }>
-                <Link to='liner-notes'><Album className='album' image={ Kanye } /></Link>
-              </Grid>
-
-              <Grid item xs={ 3 }>
-                <Link to='liner-notes'><Album className='album' image={ Paak } /></Link>
-              </Grid>
-
-              <Grid item xs={ 3 }>
-                <Link to='liner-notes'><Album className='album' image={ Frank } /></Link>
-              </Grid>
-
-            </Grid>
+            <RecordSlider props={ { records, albumTitle } } />
           </div>
-        </Grid>
 
-        <Grid item xs={ 12 }>
-          <div className='binFront'>
-            <div className='binLabelContainer'>
-              <div className='binLabelText'>{bins[1].label}</div>
-            </div>
-          </div>
-          <div className='binBack'>
-            <Grid container justify='center' spacing={ 24 } style={ { marginTop: '40px' } }>
-              <Grid item xs={ 2 }>
-                <Link to='liner-notes'><Album className='album' image={ Chance } /></Link>
-              </Grid>
-
-              <Grid item xs={ 2 }>
-                <Link to='liner-notes'><Album className='album' image={ Kanye } /></Link>
-              </Grid>
-
-              <Grid item xs={ 2 }>
-                <Link to='liner-notes'><Album className='album' image={ Paak } /></Link>
-              </Grid>
-
-              <Grid item xs={ 2 }>
-                <Link to='liner-notes'><Album className='album' image={ Frank } /></Link>
-              </Grid>
-
-              <Grid item xs={ 2 }>
-                <Link to='liner-notes'><Album className='album' image={ GlassAnimals } /></Link>
-              </Grid>
-            </Grid>
-          </div>
-        </Grid>
-
-        <Grid item xs={ 12 }>
-          <div className='binFront'>
-            <div className='binLabelContainer'>
-              <div className='binLabelText'>{bins[2].label}</div>
-            </div>
-          </div>
-          <div className='binBack'>
-            <Grid container justify='center' spacing={ 24 } style={ { marginTop: '40px' } }>
-              <Grid item xs={ 2 }>
-                <Link to='liner-notes'><Album className='album' image={ Chance } /></Link>
-              </Grid>
-
-              <Grid item xs={ 2 }>
-                <Link to='liner-notes'><Album className='album' image={ Kanye } /></Link>
-              </Grid>
-
-              <Grid item xs={ 2 }>
-                <Link to='liner-notes'><Album className='album' image={ Paak } /></Link>
-              </Grid>
-
-              <Grid item xs={ 2 }>
-                <Link to='liner-notes'><Album className='album' image={ Frank } /></Link>
-              </Grid>
-
-              <Grid item xs={ 2 }>
-                <Link to='liner-notes'><Album className='album' image={ GlassAnimals } /></Link>
-              </Grid>
-            </Grid>
-          </div>
         </Grid>
 
       </Grid>
     </div>
   );
-};
-
-const Album = (props) => {
-  const { image } = props;
-  return (
-    <div>
-      <img alt='album' className='album' src={ image } />
-    </div>
-  );
-};
-
-Album.propTypes = {
 };
 
 RecordBin.propTypes = {
