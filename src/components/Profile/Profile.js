@@ -5,7 +5,7 @@ import { get } from 'lodash';
 import PropTypes from 'prop-types';
 
 // Material UI imports
-import Grid from 'material-ui/Grid';
+import { Grid, withStyles } from 'material-ui';
 
 // Local imports:
 import './Profile.css';
@@ -50,71 +50,86 @@ const bins = [
   },
 ];
 
-
 const RecordBin = (props) => {
-  const { data } = props;
+  const { classes, data } = props;
   const records = get(data, 'records', {});
   const albumTitle = get(data, 'records["0"]');
   console.log('Records: ', records);
   console.log('Album title: ', albumTitle);
 
   return (
-    <div>
-      <Grid container>
+    <Grid container>
 
-        <Grid item xs={ 6 }>
-          <div className='heading'>Your Record Bin</div>
-        </Grid>
+      <Grid item xs={ 12 }>
+        <img alt='record' className={ classes.recordImage } src={ Record } />
+      </Grid>
 
-        <Grid item xs={ 6 }>
+      <Grid item xs={ 12 } className={ classes.binContainer }>
 
-          <div>
-            <img alt='record' className='recordImage' src={ Record } />
+        <div className='binFront'>
+          <div className='binLabelContainer'>
+            <div className='binLabelText'>{ bins[0].label }</div>
           </div>
+        </div>
 
-        </Grid>
-
-        <Grid item xs={ 12 } style={ { marginTop: 10 } }>
-
-          <div className='binFront'>
-            <div className='binLabelContainer'>
-              <div className='binLabelText'>{ bins[0].label }</div>
-            </div>
-          </div>
-
-          <div className='binBack'>
-            <RecordSlider props={ { records, albumTitle } } />
-          </div>
-
-        </Grid>
-
-        <Grid item xs={ 12 } style={ { marginTop: 10 } }>
-
-          <div className='binFront'>
-            <div className='binLabelContainer'>
-              <div className='binLabelText'>{ albumTitle }</div>
-            </div>
-          </div>
-
-          <div className='binBack'>
-            <RecordSlider props={ { records, albumTitle } } />
-          </div>
-
-        </Grid>
+        <div className='binBack'>
+          <RecordSlider props={ { records, albumTitle } } />
+        </div>
 
       </Grid>
-    </div>
+
+      <Grid item xs={ 12 } className={ classes.binContainer }>
+
+        <div className='binFront'>
+          <div className='binLabelContainer'>
+            <div className='binLabelText'>{ albumTitle }</div>
+          </div>
+        </div>
+
+        <div className='binBack'>
+          <RecordSlider props={ { records, albumTitle } } />
+        </div>
+
+      </Grid>
+
+    </Grid>
   );
 };
 
 RecordBin.propTypes = {
-  data: PropTypes.shape({
+  classes: PropTypes.instanceOf(Object).isRequired,
+  data:    PropTypes.shape({
     records: PropTypes.object,
     users:   PropTypes.object,
   }).isRequired,
 };
 
-RecordBin.defaultProps = {
-};
+const styles = theme => ({
+  heading: {
+    fontFamily: '"Galano", Lato',
+    color:      '#fff',
+    fontSize:   60,
+    marginLeft: 50,
+  },
 
-export default RecordBin;
+  recordImage: {
+    float:                          'right',
+    marginRight:                    35,
+    animation:                      'spin 5s infinite linear',
+    borderRadius:                   '100%',
+    boxShadow:                      '0px 0px 100px 1px #888888',
+    [theme.breakpoints.down('sm')]: {
+      width:  400,
+      height: 400,
+    },
+  },
+
+  binContainer: {
+    marginTop:                      -45,
+    [theme.breakpoints.down('sm')]: {
+      marginTop: -100,
+    },
+  },
+});
+
+export default withStyles(styles)(RecordBin);

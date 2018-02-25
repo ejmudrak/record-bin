@@ -11,8 +11,8 @@
 
 .album {
     border-radius: 5px;
-    width: 12em;
-    height: 12em;
+    width: 200px;
+    height: 200px;
     margin-top: 40px;
     box-shadow: 0 20px 40px rgba(0,0,0,0.45), 0 6px 6px rgba(0,0,0,0.25);
 
@@ -22,11 +22,6 @@
 
 .album:hover {
     margin-top: 10px;
-}
-
-.album:active {
-    width: 16em;
-    height: 16em;
 }
 
 .nextArrow {
@@ -48,9 +43,4 @@
 .nextArrow:before, .prevArrow:before {
 	font-size: 60px;
 	color: #7a21ff;
-}
-
-/* Styling for responsiveness */
-@media (max-device-width: 1000px){
-
 }

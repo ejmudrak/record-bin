@@ -10,35 +10,9 @@ html {
     overflow: auto;
 }
 
-.heading {
-    font-family: 'Galano', Lato;
-    color: #7a21ff;
-    color: #fff;
-    font-size: 4em;
-    margin-left: 1.5em;
-}
-
-.recordImageContainer {
-    width: 100%;
-    position: relative;
-    z-index: 0;
-}
-
-.recordImage {
-    float: right;
-    margin-right: 2em;
-    animation: spin 5s infinite linear;
-    border-radius: 100%;
-    box-shadow: 0px 0px 100px 1px #888888;
-}
-
 @keyframes spin {
     from { transform: rotate(0deg); }
     from { transform: rotate(360deg); }
-}
-
-.binContainer {
-    margin-top: 5em;
 }
 
 .binFront {
@@ -86,7 +60,7 @@ html {
     display: block;
     margin: auto;
     width: 90%;
-    height: 20em;
+    height: 230px;
 
     position: relative;
     z-index: 1;
@@ -110,6 +84,8 @@ html {
 
 
 /* Styling for responsiveness */
-@media (max-device-width: 1000px){
-
+@media (max-device-width: 500px){
+  .binFront {
+    margin-top: 50px;
+  }
 }

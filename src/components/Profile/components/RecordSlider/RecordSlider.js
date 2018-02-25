@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import ImageSlider from 'react-slick';
 
 // Material UI imports
-import { Grid, withStyles } from 'material-ui';
+import { ButtonBase, Grid, withStyles } from 'material-ui';
 
 // Style and images:
 import './RecordSlider.css';
@@ -22,6 +22,9 @@ import Vince from './assets/vince.jpg';
 
 const RecordSlider = function (props) {
   const { albumTitle, classes, records } = props;
+  const albumNames = [
+    'Chance', 'Kanye', 'Paak', 'Frank', 'GlassAnimals', 'Kendrick', 'Tyler', 'Brockhampton', 'Vince',
+  ];
 
   const sliderSettings = {
     dots:           false,
@@ -33,7 +36,13 @@ const RecordSlider = function (props) {
     nextArrow:      <Arrow direction='nextArrow' />,
     prevArrow:      <Arrow direction='prevArrow' />,
     responsive:     [
-      { breakpoint: 400, settings: { slidesToShow: 1, centerMode: true, slidesToScroll: 1 } },
+      { breakpoint: 400,
+        settings:   {
+          slidesToShow:   1,
+          centerMode:     true,
+          slidesToScroll: 1,
+          arrows:         false,
+        } },
       { breakpoint: 768, settings: { slidesToShow: 3 } },
       { breakpoint: 1024, settings: { slidesToShow: 4 } },
     ],
@@ -45,35 +54,51 @@ const RecordSlider = function (props) {
       <ImageSlider className={ classes.imageSlider } { ...sliderSettings }>
 
         <Grid item xs>
-          <Link to='liner-notes'><Album className='album' image={ Chance } /></Link>
+          <ButtonBase>
+            <Link to='liner-notes'><Album image={ Chance } /></Link>
+          </ButtonBase>
         </Grid>
 
         <Grid item xs>
-          <Link to='liner-notes'><Album className='album' image={ Kanye } /></Link>
+          <ButtonBase>
+            <Link to='liner-notes'><Album image={ Kanye } /></Link>
+          </ButtonBase>
         </Grid>
 
         <Grid item xs>
-          <Link to='liner-notes'><Album className='album' image={ Paak } /></Link>
+          <ButtonBase>
+            <Link to='liner-notes'><Album image={ Paak } /></Link>
+          </ButtonBase>
         </Grid>
 
         <Grid item xs>
-          <Link to='liner-notes'><Album className='album' image={ Frank } /></Link>
+          <ButtonBase>
+            <Link to='liner-notes'><Album image={ Frank } /></Link>
+          </ButtonBase>
         </Grid>
 
         <Grid item xs>
-          <Link to='liner-notes'><Album className='album' image={ Brockhampton } /></Link>
+          <ButtonBase>
+            <Link to='liner-notes'><Album image={ Brockhampton } /></Link>
+          </ButtonBase>
         </Grid>
 
         <Grid item xs>
-          <Link to='liner-notes'><Album className='album' image={ Vince } /></Link>
+          <ButtonBase>
+            <Link to='liner-notes'><Album image={ Vince } /></Link>
+          </ButtonBase>
         </Grid>
 
         <Grid item xs>
-          <Link to='liner-notes'><Album className='album' image={ Kendrick } /></Link>
+          <ButtonBase>
+            <Link to='liner-notes'><Album image={ Kendrick } /></Link>
+          </ButtonBase>
         </Grid>
 
         <Grid item xs>
-          <Link to='liner-notes'><Album className='album' image={ GlassAnimals } /></Link>
+          <ButtonBase>
+            <Link to='liner-notes'><Album image={ GlassAnimals } /></Link>
+          </ButtonBase>
         </Grid>
 
       </ImageSlider>
@@ -103,7 +128,7 @@ const styles = theme => ({
   },
 
   imageSlider: {
-    width: '100%',
+    width:       '100%',
     paddingLeft: 15,
   },
 });

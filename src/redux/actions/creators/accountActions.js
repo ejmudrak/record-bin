@@ -12,53 +12,53 @@ const encodeAsFirebaseKey = string => string.replace(/%/g, '%25')
   .replace(/\[/g, '%5B')
   .replace(/\]/g, '%5D');
 
-const migrateOrCreateUserAccountEntry = (uid, emailKey, snapshot, accountDataToSave, accountRef, dispatch, type) => {
-  const val = snapshot.val();
-  console.log("Val: ", val);
-  if (val) {
+const migrateOrCreateUserAccountEntry =
+  (uid, emailKey, snapshot, accountDataToSave, accountRef, dispatch, type) => {
+    const val = snapshot.val();
+    if (val) {
     // an account already exists, migrate the account
-    const accountData = omitBy(accountDataToSave, i => !i);
-    console.log("accoundData: ", accountData);
+      const accountData = omitBy(accountDataToSave, i => !i);
 
-    const nameUpdates = omitBy({ firstName: accountDataToSave.firstName, lastName: accountDataToSave.lastName }, i => !i);
-    // migrate the name index with the new uid
-    accountRef.child(emailKey).remove();
-    if (accountData.photoFile && typeof (accountData.photoFile) !== 'string') {
-      firebase.uploadFile(`/images/users/account/${uid}/account_image`, accountData.photoFile).then((response) => {
+      const nameUpdates =
+        omitBy({ firstName: accountDataToSave.firstName, lastName: accountDataToSave.lastName }, i => !i);
+      // migrate the name index with the new uid
+      accountRef.child(emailKey).remove();
+      if (accountData.photoFile && typeof (accountData.photoFile) !== 'string') {
+        firebase.uploadFile(`/images/users/account/${uid}/account_image`, accountData.photoFile).then((response) => {
+          accountRef.child(uid).update({
+            ...val,
+            ...accountData,
+            ...nameUpdates,
+            photoURL: response.uploadTaskSnaphot.downloadURL,
+          });
+        });
+      } else {
         accountRef.child(uid).update({
           ...val,
-          ...accountData,
           ...nameUpdates,
-          photoURL: response.uploadTaskSnaphot.downloadURL,
+          ...accountData,
         });
-      });
+      }
     } else {
-      accountRef.child(uid).update({
-        ...val,
-        ...nameUpdates,
-        ...accountData,
-      });
-    }
-  } else {
     // no row in the userAccount table exists with that email, totally new user
-    const accountData = omitBy(accountDataToSave, i => !i);
-    if (accountData.photoFile && typeof (accountData.photoFile) !== 'string') {
-      firebase.uploadFile(`/images/users/account/${uid}/account_image`, accountData.photoFile).then((response) => {
+      const accountData = omitBy(accountDataToSave, i => !i);
+      if (accountData.photoFile && typeof (accountData.photoFile) !== 'string') {
+        firebase.uploadFile(`/images/users/account/${uid}/account_image`, accountData.photoFile).then((response) => {
+          accountRef.child(uid).update({
+            ...accountData,
+            photoURL: response.uploadTaskSnaphot.downloadURL,
+          });
+        });
+      } else {
+        const photoUpdate = (accountData.photoFile || accountData.photoURL)
+          ? { photoURL: (accountData.photoFile || accountData.photoURL) } : {};
         accountRef.child(uid).update({
           ...accountData,
-          photoURL: response.uploadTaskSnaphot.downloadURL,
+          ...photoUpdate,
         });
-      });
-    } else {
-      const photoUpdate = (accountData.photoFile || accountData.photoURL)
-        ? { photoURL: (accountData.photoFile || accountData.photoURL) } : {};
-      accountRef.child(uid).update({
-        ...accountData,
-        ...photoUpdate,
-      });
+      }
     }
-  }
-};
+  };
 
 const migrate = (accountDataToSave, signUpResult, dispatch, type = 'signUp') => {
   const uid = firebase.auth().currentUser.uid;
