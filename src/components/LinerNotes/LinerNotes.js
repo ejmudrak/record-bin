@@ -3,6 +3,7 @@ import React from 'react';
 import { withStyles } from 'material-ui/styles';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import LastFM from 'last-fm';
 
 // Material UI components:
 import Grid from 'material-ui/Grid';
@@ -18,7 +19,7 @@ import IconButton from 'material-ui/IconButton';
 import Divider from 'material-ui/Divider';
 import Avatar from 'material-ui/Avatar';
 
-const record = {
+const recordInfo = {
   album:  'Coloring Book',
   artist: 'Chance The Rapper',
   tracks: ['All We Got', 'No Problem', 'Summer Friends', 'D.R.A.M. Sings Special', 'Blessings', 'Same Drugs', 'Mixtape', 'Angels', 'Juke Jam', 'All Night', 'How Great', 'Smoke Break', 'Finish Line / Drown', 'Blessings (Reprise)'],
@@ -35,68 +36,94 @@ const user = {
   lastname:  'Mudrak',
 };
 
-const LinerNotes = (props) => {
-  const { classes } = props;
 
-  return (
-    <div>
-      <Grid container>
-        <Paper className={ classes.container }>
-          <Grid container className={ classes.innerContainer }>
-            <Grid item xs={ 4 } className={ classes.trackListContainer } >
-              <h1 className={ classes.linerTitle }>{ record.album }</h1>
-              <p className={ classes.linerSubtitle }>{ record.artist }</p>
-              <Divider />
-              <List className={ classes.trackList }>
-                { record.tracks.map((track, index) => (
-                  <ListItem button>
-                    <Avatar style={ { backgroundColor: '#5c24f5' } }>
-                      { index + 1 }
-                    </Avatar>
-                    <ListItemText primary={ track } />
-                    <ListItemSecondaryAction>
-                      <IconButton aria-label='Play'>
-                        <Icon>music_note</Icon>
-                      </IconButton>
-                    </ListItemSecondaryAction>
-                  </ListItem>
-                ))
-                }
-              </List>
+const lastfm = new LastFM('da0881e1793be56a2618b937f536389c', { userAgent: 'Record Bin' });
+
+class LinerNotes extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      tracks: [],
+    };
+  }
+
+  getTracks = () => {
+    const { match: { params: { artist, record } } } = this.props;
+
+    const tracks = lastfm.albumInfo({ name: record, artistName: artist }, (err, data) => {
+      console.log('T1: ', data.tracks);
+      return data.tracks;
+    });
+
+    console.log('T2: ', tracks);
+    return tracks;
+  }
+
+  render() {
+    const { classes, match: { params: { artist, record } } } = this.props;
+
+    console.log('Album Data: ', this.getTracks());
+
+    return (
+      <div>
+        <Grid container>
+          <Paper className={ classes.container }>
+            <Grid container className={ classes.innerContainer }>
+              <Grid item xs={ 4 } className={ classes.trackListContainer } >
+                <h1 className={ classes.linerTitle }>{ record }</h1>
+                <p className={ classes.linerSubtitle }>{ artist }</p>
+                <Divider />
+                <List className={ classes.trackList }>
+                  { recordInfo.tracks.map((track, index) => (
+                    <ListItem button key={ track }>
+                      <Avatar style={ { backgroundColor: '#5c24f5' } }>
+                        { index + 1 }
+                      </Avatar>
+                      <ListItemText primary={ track } />
+                      <ListItemSecondaryAction>
+                        <IconButton aria-label='Play'>
+                          <Icon>music_note</Icon>
+                        </IconButton>
+                      </ListItemSecondaryAction>
+                    </ListItem>
+                  ))
+                  }
+                </List>
+              </Grid>
+
+              <Grid item xs={ 8 } className={ classes.notesContainer } >
+                <h1 className={ classes.linerTitle }>Liner Notes</h1>
+                <Link to='/'>
+                  <IconButton className={ classes.closeButton }>
+                    <Icon>close</Icon>
+                  </IconButton>
+                </Link>
+                <p className={ classes.linerSubtitle }>{ user.firstname } { user.lastname }</p>
+                <Divider />
+                <p className={ classes.notes }>
+                  <span className={ classes.quotes }>
+                    &quot;
+                    &nbsp;
+                  </span>
+                  { recordInfo.notes[0] }
+                </p>
+                <p className={ classes.notes }>{ recordInfo.notes[1] }</p>
+                <p className={ classes.notes }>{ recordInfo.notes[2] }
+                  <span className={ classes.quotes }>
+                    &nbsp;
+                    &quot;
+                  </span>
+                </p>
+                <Divider />
+
+              </Grid>
             </Grid>
-
-            <Grid item xs={ 8 } className={ classes.notesContainer } >
-              <h1 className={ classes.linerTitle }>Liner Notes</h1>
-              <Link to='/'>
-                <IconButton className={ classes.closeButton }>
-                  <Icon>close</Icon>
-                </IconButton>
-              </Link>
-              <p className={ classes.linerSubtitle }>{ user.firstname } { user.lastname }</p>
-              <Divider />
-              <p className={ classes.notes }>
-                <span className={ classes.quotes }>
-                  &quot;
-                  &nbsp;
-                </span>
-                { record.notes[0] }
-              </p>
-              <p className={ classes.notes }>{ record.notes[1] }</p>
-              <p className={ classes.notes }>{ record.notes[2] }
-                <span className={ classes.quotes }>
-                  &nbsp;
-                  &quot;
-                </span>
-              </p>
-              <Divider />
-
-            </Grid>
-          </Grid>
-        </Paper>
-      </Grid>
-    </div>
-  );
-};
+          </Paper>
+        </Grid>
+      </div>
+    );
+  }
+}
 
 const styles = theme => ({
   container: {
@@ -148,6 +175,7 @@ const styles = theme => ({
 });
 
 LinerNotes.propTypes = {
+  match:   PropTypes.instanceOf(Object).isRequired,
   classes: PropTypes.instanceOf(Object).isRequired,
 };
 

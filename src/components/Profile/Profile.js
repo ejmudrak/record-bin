@@ -54,8 +54,8 @@ const RecordBin = (props) => {
   const { classes, data } = props;
   const records = get(data, 'records', {});
   const albumTitle = get(data, 'records["0"]');
-  console.log('Records: ', records);
-  console.log('Album title: ', albumTitle);
+  // console.log('Records: ', records);
+  // console.log('Album title: ', albumTitle);
 
   return (
     <Grid container>
@@ -130,6 +130,7 @@ const styles = theme => ({
       marginTop: -100,
     },
   },
+
 });
 
 export default withStyles(styles)(RecordBin);

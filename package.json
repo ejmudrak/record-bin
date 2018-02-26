@@ -12,6 +12,7 @@
     "firebase": "^4.10.0",
     "firebase-admin": "^5.9.0",
     "history": "^4.7.2",
+    "last-fm": "^5.2.0",
     "lodash": "^4.17.5",
     "material-ui": "^1.0.0-beta.34",
     "material-ui-icons": "^1.0.0-beta.17",
@@ -42,6 +43,7 @@
     "redux-promise-middleware": "^4.4.2",
     "redux-thunk": "^2.2.0",
     "slick-carousel": "^1.8.1",
+    "spotify-web-api-js": "^0.23.0",
     "xlsx": "^0.11.19"
   },
   "scripts": {

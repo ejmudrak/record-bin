@@ -184,7 +184,7 @@ class App extends Component {
           onRequestClose={ this.handleSignOutClose } />
 
         <Route exact path='/' component={ Profile } />
-        <Route exact path='/liner-notes' component={ LinerNotes } />
+        <Route exact path='/liner-notes/:artist/:record' component={ LinerNotes } />
         <Route exact path='/profile' component={ Profile } />
         <Route exact path='/forgotpassword' component={ ForgotPassword } />
       </div>
