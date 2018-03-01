@@ -40,6 +40,11 @@ const user = {
 const lastfm = new LastFM('da0881e1793be56a2618b937f536389c', { userAgent: 'Record Bin' });
 
 class LinerNotes extends React.Component {
+  static propTypes = {
+    match:   PropTypes.instanceOf(Object).isRequired,
+    classes: PropTypes.instanceOf(Object).isRequired,
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -47,22 +52,23 @@ class LinerNotes extends React.Component {
     };
   }
 
+  componentDidMount() {
+    this.getTracks();
+  }
+
   getTracks = () => {
     const { match: { params: { artist, record } } } = this.props;
 
-    const tracks = lastfm.albumInfo({ name: record, artistName: artist }, (err, data) => {
-      console.log('T1: ', data.tracks);
-      return data.tracks;
+    lastfm.albumInfo({ name: record, artistName: artist }, (err, data) => {
+      this.setState({ tracks: data.tracks });
     });
-
-    console.log('T2: ', tracks);
-    return tracks;
   }
 
   render() {
     const { classes, match: { params: { artist, record } } } = this.props;
+    const { tracks } = this.state;
 
-    console.log('Album Data: ', this.getTracks());
+    console.log('Album Data: ', tracks);
 
     return (
       <div>
@@ -74,12 +80,12 @@ class LinerNotes extends React.Component {
                 <p className={ classes.linerSubtitle }>{ artist }</p>
                 <Divider />
                 <List className={ classes.trackList }>
-                  { recordInfo.tracks.map((track, index) => (
-                    <ListItem button key={ track }>
+                  { tracks.map((track, index) => (
+                    <ListItem button key={ track.name }>
                       <Avatar style={ { backgroundColor: '#5c24f5' } }>
                         { index + 1 }
                       </Avatar>
-                      <ListItemText primary={ track } />
+                      <ListItemText primary={ track.name } />
                       <ListItemSecondaryAction>
                         <IconButton aria-label='Play'>
                           <Icon>music_note</Icon>
@@ -173,10 +179,5 @@ const styles = theme => ({
     fontWeight: 'bold',
   },
 });
-
-LinerNotes.propTypes = {
-  match:   PropTypes.instanceOf(Object).isRequired,
-  classes: PropTypes.instanceOf(Object).isRequired,
-};
 
 export default withStyles(styles)(LinerNotes);

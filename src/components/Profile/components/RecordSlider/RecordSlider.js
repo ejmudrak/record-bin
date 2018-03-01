@@ -1,7 +1,6 @@
 // General Imports:
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { get } from 'lodash';
 import PropTypes from 'prop-types';
 import ImageSlider from 'react-slick';
 import LastFM from 'last-fm';
@@ -12,62 +11,49 @@ import { ButtonBase, Grid, withStyles } from 'material-ui';
 // Style and images:
 import './RecordSlider.css';
 
-const lastfm = new LastFM('da0881e1793be56a2618b937f536389c', { userAgent: 'Record Bin' });
-
-const albumNames = [
-  {
-    artist: 'Chance The Rapper',
-    album:  'Coloring Book',
-  },
-  {
-    artist: 'Kanye West',
-    album:  'Late Registration',
-  },
-  {
-    artist: 'Anderson .Paak',
-    album:  'Malibu',
-  },
-  {
-    artist: 'Brockhampton',
-    album:  'Saturation III',
-  },
-  {
-    artist: 'Vince Staples',
-    album:  'Big Fish Theory',
-  },
-  {
-    artist: 'Frank Ocean',
-    album:  'Channel Orange',
-  },
-  {
-    artist: 'Kendrick Lamar',
-    album:  'Damn.',
-  },
-];
-
-const albumData = [];
-
-albumNames.map((item) => {
-  lastfm.albumInfo({ name: item.album, artistName: item.artist }, (err, data) => {
-    if (err) console.error(err);
-    else {
-      albumData.push(data);
-    }
-  });
-});
+const myKey = 'da0881e1793be56a2618b937f536389c';
+// const extraKey = '57ee3318536b23ee81d6b27e36997cde';
+const lastfm = new LastFM(myKey, { userAgent: 'Record Bin' });
 
 class RecordSlider extends React.Component {
+  static propTypes = {
+    classes: PropTypes.instanceOf(Object).isRequired,
+    records: PropTypes.instanceOf(Object).isRequired,
+  };
+
   constructor(props) {
     super(props);
     this.state = {
-      albumData: [],
+      recordsData: [],
     };
   }
 
+  componentDidMount() {
+    this.initRecords();
+  }
+
+  initRecords = () => {
+    const { records } = this.props;
+    const recordsData = [];
+
+    const recordsArray = Object.values(records);
+
+    recordsArray.forEach((item) => {
+      lastfm.albumInfo({ name: item.record, artistName: item.artist }, (err, data) => {
+        if (err) console.error(err);
+        else {
+          recordsData.push(data);
+          this.setState({ recordsData });
+        }
+      });
+    });
+  }
 
   render() {
-    const { albumTitle, classes, records } = this.props;
-    console.log('Album Data', albumData);
+    const { classes } = this.props;
+    const { recordsData } = this.state;
+
+    console.log('Records Data: ', recordsData);
 
     const sliderSettings = {
       dots:           false,
@@ -94,11 +80,11 @@ class RecordSlider extends React.Component {
     return (
       <Grid container spacing={ 8 } justify='center' className={ classes.records }>
         <ImageSlider className={ classes.imageSlider } { ...sliderSettings }>
-          { albumData.map(album => (
-            <Grid item xs key={ album.name }>
+          { recordsData.map(record => (
+            <Grid item xs key={ record.name }>
               <ButtonBase>
-                <Link to={ `liner-notes/${album.artistName}/${album.name}` }>
-                  <Album image={ album.images[4] } />
+                <Link to={ `liner-notes/${record.artistName}/${record.name}` }>
+                  <Album image={ record.images[4] } />
                 </Link>
               </ButtonBase>
             </Grid>
@@ -136,12 +122,5 @@ const styles = theme => ({
     paddingLeft: 15,
   },
 });
-
-RecordSlider.propTypes = {
-  classes:    PropTypes.instanceOf(Object).isRequired,
-  records:    PropTypes.instanceOf(Object).isRequired,
-  albumTitle: PropTypes.string.isRequired,
-};
-
 
 export default withStyles(styles)(RecordSlider);

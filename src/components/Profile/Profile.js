@@ -51,11 +51,19 @@ const bins = [
 ];
 
 const RecordBin = (props) => {
+  RecordBin.propTypes = {
+    classes: PropTypes.instanceOf(Object).isRequired,
+    data:    PropTypes.shape({
+      records: PropTypes.instanceOf(Array),
+      users:   PropTypes.object,
+    }).isRequired,
+  };
+
   const { classes, data } = props;
-  const records = get(data, 'records', {});
-  const albumTitle = get(data, 'records["0"]');
-  // console.log('Records: ', records);
-  // console.log('Album title: ', albumTitle);
+
+  const uid = 'PiNBKrYbDqVswjTLq8Ormfe9epH3';
+  const bin = 0;
+  const records = get(data, `userProfile.${uid}.bins.${bin}.records`, []);
 
   return (
     <Grid container>
@@ -73,7 +81,7 @@ const RecordBin = (props) => {
         </div>
 
         <div className='binBack'>
-          <RecordSlider props={ { records, albumTitle } } />
+          <RecordSlider records={ records } />
         </div>
 
       </Grid>
@@ -82,26 +90,18 @@ const RecordBin = (props) => {
 
         <div className='binFront'>
           <div className='binLabelContainer'>
-            <div className='binLabelText'>{ albumTitle }</div>
+            <div className='binLabelText'>{ bins[1].label }</div>
           </div>
         </div>
 
         <div className='binBack'>
-          <RecordSlider props={ { records, albumTitle } } />
+          <RecordSlider records={ records } />
         </div>
 
       </Grid>
 
     </Grid>
   );
-};
-
-RecordBin.propTypes = {
-  classes: PropTypes.instanceOf(Object).isRequired,
-  data:    PropTypes.shape({
-    records: PropTypes.object,
-    users:   PropTypes.object,
-  }).isRequired,
 };
 
 const styles = theme => ({
