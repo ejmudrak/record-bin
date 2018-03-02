@@ -138,6 +138,7 @@ const styles = theme => ({
     width:           '90vw',
     display:         'block',
     margin:          'auto',
+    marginTop:       40,
   },
   innerContainer: {
     height: '100%',

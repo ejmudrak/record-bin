@@ -35,27 +35,11 @@ import RecordSlider from './components/RecordSlider';
     + Tie location to user and their liner notes
 */
 
-const bins = [
-  {
-    albums: 5,
-    label:  'My Top 5',
-  },
-  {
-    albums: 5,
-    label:  'College Survival Guide',
-  },
-  {
-    albums: 5,
-    label:  'What I Grew Up On',
-  },
-];
-
 const RecordBin = (props) => {
   RecordBin.propTypes = {
     classes: PropTypes.instanceOf(Object).isRequired,
     data:    PropTypes.shape({
-      records: PropTypes.instanceOf(Array),
-      users:   PropTypes.object,
+      userProfile: PropTypes.instanceOf(Object),
     }).isRequired,
   };
 
@@ -64,6 +48,7 @@ const RecordBin = (props) => {
   const uid = 'PiNBKrYbDqVswjTLq8Ormfe9epH3';
   const bin = 0;
   const records = get(data, `userProfile.${uid}.bins.${bin}.records`, []);
+  const binName = get(data, `userProfile.${uid}.bins.${bin}.name`, []);
 
   return (
     <Grid container>
@@ -76,7 +61,7 @@ const RecordBin = (props) => {
 
         <div className='binFront'>
           <div className='binLabelContainer'>
-            <div className='binLabelText'>{ bins[0].label }</div>
+            <div className='binLabelText'>{ binName }</div>
           </div>
         </div>
 
@@ -90,7 +75,7 @@ const RecordBin = (props) => {
 
         <div className='binFront'>
           <div className='binLabelContainer'>
-            <div className='binLabelText'>{ bins[1].label }</div>
+            <div className='binLabelText'>{ binName }</div>
           </div>
         </div>
 

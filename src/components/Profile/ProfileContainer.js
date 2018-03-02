@@ -13,8 +13,6 @@ const ProfileContainer = props => (
 
 ProfileContainer.propTypes = {
   data: PropTypes.shape({
-    records:     PropTypes.instanceOf(Array),
-    users:       PropTypes.object,
     userProfile: PropTypes.instanceOf(Object),
   }).isRequired,
   firebase: PropTypes.shape({
@@ -37,6 +35,6 @@ const WrappedProfile = firebaseConnect((props) => {
 export default withRouter(connect(
   state => ({ firebase: state.firebase,
     data:     state.firebase.data,
-    records:  state.firebase.data.records }),
+  }),
   { ...exampleActions },
 )(WrappedProfile));
