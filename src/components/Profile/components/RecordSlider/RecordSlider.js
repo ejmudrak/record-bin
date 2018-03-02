@@ -34,6 +34,7 @@ class RecordSlider extends React.Component {
 
   initRecords = () => {
     const { records } = this.props;
+
     const recordsData = [];
 
     const recordsArray = Object.values(records);
@@ -53,15 +54,13 @@ class RecordSlider extends React.Component {
     const { classes } = this.props;
     const { recordsData } = this.state;
 
-    console.log('Records Data: ', recordsData);
-
     const sliderSettings = {
       dots:           false,
       infinite:       false,
       speed:          500,
       swipeToSlide:   true,
       slidesToShow:   5,
-      slidesToScroll: 1,
+      slidesToScroll: 2,
       nextArrow:      <Arrow direction='nextArrow' />,
       prevArrow:      <Arrow direction='prevArrow' />,
       responsive:     [

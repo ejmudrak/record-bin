@@ -7,7 +7,8 @@ import rootReducer from '../reducers';
 
 export const configureStore = (browserHistory, firebaseConfig) => {
   const reduxFirebaseConfig = {
-    userProfile:          'userAccount',
+    userAccount:          'userAccount',
+    userProfile:          'userProfile',
     updateProfileOnLogin: true,
   };
   const createStoreWithFirebase = compose(

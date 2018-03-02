@@ -13,11 +13,9 @@ const ProfileContainer = props => (
 
 ProfileContainer.propTypes = {
   data: PropTypes.shape({
-    records: PropTypes.instanceOf(Array),
-    users:   PropTypes.object,
-  }).isRequired,
-  auth: PropTypes.shape({
-    uid: PropTypes.string,
+    records:     PropTypes.instanceOf(Array),
+    users:       PropTypes.object,
+    userProfile: PropTypes.instanceOf(Object),
   }).isRequired,
   firebase: PropTypes.shape({
     set: PropTypes.func,
@@ -26,18 +24,18 @@ ProfileContainer.propTypes = {
 
 const WrappedProfile = firebaseConnect((props) => {
   const uid = get(props, 'firebase.auth.uid', '');
+  const myUid = 'PiNBKrYbDqVswjTLq8Ormfe9epH3';
 
   return [
     'records',
     'users',
-    `/userProfile/${uid}`,
+    `/userProfile/${myUid}`,
   ];
 })(ProfileContainer);
 
 
 export default withRouter(connect(
   state => ({ firebase: state.firebase,
-    auth:     state.firebase.auth,
     data:     state.firebase.data,
     records:  state.firebase.data.records }),
   { ...exampleActions },
