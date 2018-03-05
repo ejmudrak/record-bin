@@ -3,25 +3,16 @@ import React from 'react';
 import { withStyles } from 'material-ui/styles';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import LastFM from 'last-fm';
 
 // Material UI components:
-import Grid from 'material-ui/Grid';
-import Paper from 'material-ui/Paper';
+import { Avatar, CircularProgress, Divider, Grid, Icon, IconButton, Paper } from 'material-ui';
 import List, {
   ListItem,
   ListItemText,
   ListItemSecondaryAction,
 } from 'material-ui/List';
-// import Typography from 'material-ui/Typography'
-import Icon from 'material-ui/Icon';
-import IconButton from 'material-ui/IconButton';
-import Divider from 'material-ui/Divider';
-import Avatar from 'material-ui/Avatar';
 
 const recordInfo = {
-  album:  'Coloring Book',
-  artist: 'Chance The Rapper',
   tracks: ['All We Got', 'No Problem', 'Summer Friends', 'D.R.A.M. Sings Special', 'Blessings', 'Same Drugs', 'Mixtape', 'Angels', 'Juke Jam', 'All Night', 'How Great', 'Smoke Break', 'Finish Line / Drown', 'Blessings (Reprise)'],
   notes:  ['In another world, you can imagine Chance the Rapper lip-syncing “Twist and Shout” at Chicago’s Von Steuben Day parade, surrounded by frauleins doing the money dance. You can visualize a rap game Ferris Bueller: arms outstretched to snare a foul ball, staring stoned at Seurat, ducking fascist educators, and oblivious parents with cinematic ease. You can hear his impression of Abe Froman, sausage king of Chicago, and it’s pitch-perfect.',
     "Barely out of his teens, Chancelor Bennett has already transformed himself from a suspended high school student to the young Chicago rapper universally adored among 'sportos, motorheads, geeks, sluts, bloods, wasteoids, dweebies, and dickheads.' The release of last week’s Acid Rap triggered such intense demand that it crashed both hosting site Audiomack and Windy City rap agora Fake Shore Drive. Cops recently banned Chance from two separate high school parking lots after mobs formed once kids discovered he was on campus.",
@@ -37,8 +28,6 @@ const user = {
 };
 
 
-const lastfm = new LastFM('da0881e1793be56a2618b937f536389c', { userAgent: 'Record Bin' });
-
 class LinerNotes extends React.Component {
   static propTypes = {
     match:   PropTypes.instanceOf(Object).isRequired,
@@ -48,7 +37,8 @@ class LinerNotes extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tracks: [],
+      tracks:  [],
+      loading: true,
     };
   }
 
@@ -58,17 +48,37 @@ class LinerNotes extends React.Component {
 
   getTracks = () => {
     const { match: { params: { artist, record } } } = this.props;
+    let tracksData = '';
 
-    lastfm.albumInfo({ name: record, artistName: artist }, (err, data) => {
-      this.setState({ tracks: data.tracks });
-    });
+    const baseURL = '//ws.audioscrobbler.com/2.0/';
+    const method = 'album.getInfo';
+    const apiKey = 'da0881e1793be56a2618b937f536389c';
+
+    const url = `${baseURL}?method=${method}&artist=${artist}&album=${record}&api_key=${apiKey}&format=json`;
+
+    (async () => {
+      try {
+        const res = await fetch(url);
+
+        if (res.status >= 400) {
+          throw new Error('Bad response from server');
+        }
+
+        const recordData = await res.json();
+        tracksData = recordData.album.tracks.track;
+      } catch (err) {
+        console.error(err);
+      }
+
+      const emptyMessage = [{ name: 'No Tracks Found' }];
+      const tracks = tracksData.length ? tracksData : emptyMessage;
+      this.setState({ tracks, loading: false });
+    })();
   }
 
   render() {
     const { classes, match: { params: { artist, record } } } = this.props;
-    const { tracks } = this.state;
-
-    console.log('Album Data: ', tracks);
+    const { loading, tracks } = this.state;
 
     return (
       <div>
@@ -79,22 +89,27 @@ class LinerNotes extends React.Component {
                 <h1 className={ classes.linerTitle }>{ record }</h1>
                 <p className={ classes.linerSubtitle }>{ artist }</p>
                 <Divider />
+
                 <List className={ classes.trackList }>
-                  { tracks.map((track, index) => (
-                    <ListItem button key={ track.name }>
-                      <Avatar style={ { backgroundColor: '#5c24f5' } }>
-                        { index + 1 }
-                      </Avatar>
-                      <ListItemText primary={ track.name } />
-                      <ListItemSecondaryAction>
-                        <IconButton aria-label='Play'>
-                          <Icon>music_note</Icon>
-                        </IconButton>
-                      </ListItemSecondaryAction>
-                    </ListItem>
-                  ))
+                  { loading ?
+                    (
+                      <CircularProgress />
+                    ) : tracks.map((item, index) => (
+                      <ListItem button key={ item.name }>
+                        <Avatar style={ { backgroundColor: '#5c24f5' } }>
+                          { index + 1 }
+                        </Avatar>
+                        <ListItemText primary={ item.name } />
+                        <ListItemSecondaryAction>
+                          <IconButton aria-label='Play'>
+                            <Icon>music_note</Icon>
+                          </IconButton>
+                        </ListItemSecondaryAction>
+                      </ListItem>
+                    ))
                   }
                 </List>
+
               </Grid>
 
               <Grid item xs={ 8 } className={ classes.notesContainer } >

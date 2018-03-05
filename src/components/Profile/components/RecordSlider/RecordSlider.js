@@ -60,8 +60,6 @@ class RecordSlider extends React.Component {
 
           const newRecord = await res.json();
           recordsData.push(newRecord);
-
-          console.log(newRecord);
         } catch (err) {
           console.error(err);
         }
@@ -74,7 +72,6 @@ class RecordSlider extends React.Component {
     const { classes } = this.props;
     const { recordsData, loading } = this.state;
     console.log('Records Data: ', recordsData);
-    console.log('Loading: ', loading);
 
     const sliderSettings = {
       dots:           false,
@@ -125,7 +122,6 @@ class RecordSlider extends React.Component {
 
 const Album = (props) => {
   const { image } = props;
-  console.log('Image: ', image);
   return (
     <div>
       <img alt='album' className='album' src={ image } />
