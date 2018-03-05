@@ -49,7 +49,9 @@ const RecordBin = (props) => {
   const uid = 'PiNBKrYbDqVswjTLq8Ormfe9epH3';
   const bin = 0;
   const records = get(data, `userProfile.${uid}.bins.${bin}.records`, []);
+  const recordsTwo = get(data, `userProfile.${uid}.bins.${1}.records`, []);
   const binName = get(data, `userProfile.${uid}.bins.${bin}.name`, []);
+  const binNameTwo = get(data, `userProfile.${uid}.bins.${1}.name`, []);
 
   return (
     <Grid container>
@@ -76,12 +78,12 @@ const RecordBin = (props) => {
 
         <div className='binFront'>
           <div className='binLabelContainer'>
-            <div className='binLabelText'>{ binName }</div>
+            <div className='binLabelText'>{ binNameTwo }</div>
           </div>
         </div>
 
         <div className='binBack'>
-          <RecordSlider records={ records } fetchRecord={ fetchRecord } />
+          <RecordSlider records={ recordsTwo } fetchRecord={ fetchRecord } />
         </div>
 
       </Grid>
