@@ -3,17 +3,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ImageSlider from 'react-slick';
-import LastFM from 'last-fm';
+import fetch from 'cross-fetch';
 
 // Material UI imports
-import { ButtonBase, Grid, withStyles } from 'material-ui';
+import { ButtonBase, CircularProgress, Grid, withStyles } from 'material-ui';
 
 // Style and images:
 import './RecordSlider.css';
-
-const myKey = 'da0881e1793be56a2618b937f536389c';
-// const extraKey = '57ee3318536b23ee81d6b27e36997cde';
-const lastfm = new LastFM(myKey, { userAgent: 'Record Bin' });
 
 class RecordSlider extends React.Component {
   static propTypes = {
@@ -24,35 +20,61 @@ class RecordSlider extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      recordsData: [],
+      recordsData:    [],
+      loading:        true,
+      recordsDataNew: {
+        isFetching:    false,
+        didInvalidate: false,
+        lastUpdated:   '',
+        items:         [],
+      },
+
     };
   }
 
   componentDidMount() {
-    this.initRecords();
+    this.initData();
   }
 
-  initRecords = () => {
+  initData = () => {
     const { records } = this.props;
 
     const recordsData = [];
 
     const recordsArray = Object.values(records);
 
+    const baseURL = '//ws.audioscrobbler.com/2.0/';
+    const method = 'album.getInfo';
+    const apiKey = 'da0881e1793be56a2618b937f536389c';
+
     recordsArray.forEach((item) => {
-      lastfm.albumInfo({ name: item.record, artistName: item.artist }, (err, data) => {
-        if (err) console.error(err);
-        else {
-          recordsData.push(data);
-          this.setState({ recordsData });
+      const url = `${baseURL}?method=${method}&artist=${item.artist}&album=${item.record}&api_key=${apiKey}&format=json`;
+
+      (async () => {
+        try {
+          const res = await fetch(url);
+
+          if (res.status >= 400) {
+            throw new Error('Bad response from server');
+          }
+
+          const newRecord = await res.json();
+          recordsData.push(newRecord);
+
+          console.log(newRecord);
+        } catch (err) {
+          console.error(err);
         }
-      });
+        this.setState({ recordsData, loading: false });
+      })();
     });
-  }
+  };
 
   render() {
     const { classes } = this.props;
-    const { recordsData } = this.state;
+    const { recordsData, loading } = this.state;
+    console.log('Records Data: ', recordsData);
+    console.log('Loading: ', loading);
 
     const sliderSettings = {
       dots:           false,
@@ -78,19 +100,23 @@ class RecordSlider extends React.Component {
 
     return (
       <Grid container spacing={ 8 } justify='center' className={ classes.records }>
-        <ImageSlider className={ classes.imageSlider } { ...sliderSettings }>
-          { recordsData.map(record => (
-            <Grid item xs key={ record.name }>
-              <ButtonBase>
-                <Link to={ `liner-notes/${record.artistName}/${record.name}` }>
-                  <Album image={ record.images[4] } />
-                </Link>
-              </ButtonBase>
-            </Grid>
-          )
-          )}
-
-        </ImageSlider>
+        { loading ? (
+          <CircularProgress className={ classes.loading } />
+        ) : (
+          <ImageSlider className={ classes.imageSlider } { ...sliderSettings }>
+            { recordsData.map(record => (
+              <Grid item xs key={ record.album.name }>
+                <ButtonBase>
+                  <Link to={ `liner-notes/${record.album.artist}/${record.album.name}` }>
+                    <Album image={ record.album.image[2]['#text'] } />
+                  </Link>
+                </ButtonBase>
+              </Grid>
+            )
+            )}
+          </ImageSlider>
+        )
+        }
       </Grid>
     );
   }
@@ -99,6 +125,7 @@ class RecordSlider extends React.Component {
 
 const Album = (props) => {
   const { image } = props;
+  console.log('Image: ', image);
   return (
     <div>
       <img alt='album' className='album' src={ image } />
@@ -111,9 +138,13 @@ const Arrow = ({ className, style, onClick, direction }) => (
     onClick={ onClick } />
 );
 
-const styles = theme => ({
+const styles = () => ({
   records: {
     marginTop: 50,
+  },
+
+  loading: {
+    marginTop: 100,
   },
 
   imageSlider: {

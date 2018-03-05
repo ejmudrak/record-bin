@@ -18,6 +18,7 @@ ProfileContainer.propTypes = {
   firebase: PropTypes.shape({
     set: PropTypes.func,
   }).isRequired,
+  getRecordInfo: PropTypes.func.isRequired,
 };
 
 const WrappedProfile = firebaseConnect((props) => {

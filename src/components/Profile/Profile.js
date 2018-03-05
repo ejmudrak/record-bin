@@ -41,14 +41,17 @@ const RecordBin = (props) => {
     data:    PropTypes.shape({
       userProfile: PropTypes.instanceOf(Object),
     }).isRequired,
+    getRecordInfo: PropTypes.func.isRequired,
   };
 
-  const { classes, data } = props;
+  const { classes, data, getRecordInfo } = props;
 
   const uid = 'PiNBKrYbDqVswjTLq8Ormfe9epH3';
   const bin = 0;
   const records = get(data, `userProfile.${uid}.bins.${bin}.records`, []);
   const binName = get(data, `userProfile.${uid}.bins.${bin}.name`, []);
+
+  // console.log('getRecordInfo: ', getRecordInfo('Kanye West', 'Graduation', 'album'));
 
   return (
     <Grid container>
