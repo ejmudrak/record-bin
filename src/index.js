@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
@@ -5,6 +6,8 @@ import { Router } from 'react-router-dom';
 import createHistory from 'history/createBrowserHistory';
 import * as firebase from 'firebase';
 import { MuiThemeProvider } from 'material-ui';
+
+import { fetchRecord } from './redux/actions/creators/recordActions';
 
 // theme
 import theme from './assets/theme';
@@ -26,6 +29,10 @@ firebase.initializeApp(firebaseConfig);
 const target = document.getElementById('root');
 const history = createHistory();
 const store = configureStore(history, firebase);
+
+store
+  .dispatch(fetchRecord('The Avalanches', 'Wildflower'))
+  .then(() => console.log(store.getState()));
 
 ReactDOM.render(
   <Provider store={ store }>

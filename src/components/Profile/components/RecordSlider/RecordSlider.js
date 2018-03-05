@@ -13,8 +13,9 @@ import './RecordSlider.css';
 
 class RecordSlider extends React.Component {
   static propTypes = {
-    classes: PropTypes.instanceOf(Object).isRequired,
-    records: PropTypes.instanceOf(Object).isRequired,
+    classes:     PropTypes.instanceOf(Object).isRequired,
+    records:     PropTypes.instanceOf(Object).isRequired,
+    fetchRecord: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -37,7 +38,7 @@ class RecordSlider extends React.Component {
   }
 
   initData = () => {
-    const { records } = this.props;
+    const { fetchRecord, records } = this.props;
 
     const recordsData = [];
 
@@ -49,6 +50,8 @@ class RecordSlider extends React.Component {
 
     recordsArray.forEach((item) => {
       const url = `${baseURL}?method=${method}&artist=${item.artist}&album=${item.record}&api_key=${apiKey}&format=json`;
+
+      fetchRecord(item.artist, item.record);
 
       (async () => {
         try {

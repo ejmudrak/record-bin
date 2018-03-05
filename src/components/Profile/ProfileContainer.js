@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { get } from 'lodash';
 import { firebaseConnect } from 'react-redux-firebase';
 import { withRouter } from 'react-router-dom';
-import * as exampleActions from '../../redux/actions/creators/exampleActions';
+import * as recordActions from '../../redux/actions/creators/recordActions';
 import Profile from './Profile';
 
 const ProfileContainer = props => (
@@ -18,7 +18,7 @@ ProfileContainer.propTypes = {
   firebase: PropTypes.shape({
     set: PropTypes.func,
   }).isRequired,
-  getRecordInfo: PropTypes.func.isRequired,
+  fetchRecord: PropTypes.func.isRequired,
 };
 
 const WrappedProfile = firebaseConnect((props) => {
@@ -37,5 +37,5 @@ export default withRouter(connect(
   state => ({ firebase: state.firebase,
     data:     state.firebase.data,
   }),
-  { ...exampleActions },
+  { ...recordActions },
 )(WrappedProfile));
