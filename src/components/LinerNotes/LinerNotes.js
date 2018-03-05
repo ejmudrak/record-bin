@@ -38,6 +38,7 @@ class LinerNotes extends React.Component {
     super(props);
     this.state = {
       tracks:  [],
+      summary: '',
       loading: true,
     };
   }
@@ -49,6 +50,7 @@ class LinerNotes extends React.Component {
   getTracks = () => {
     const { match: { params: { artist, record } } } = this.props;
     let tracksData = '';
+    let summaryData = '';
 
     const baseURL = '//ws.audioscrobbler.com/2.0/';
     const method = 'album.getInfo';
@@ -66,19 +68,23 @@ class LinerNotes extends React.Component {
 
         const recordData = await res.json();
         tracksData = recordData.album.tracks.track;
+        summaryData = recordData.album.wiki.content;
       } catch (err) {
         console.error(err);
       }
 
-      const emptyMessage = [{ name: 'No Tracks Found' }];
-      const tracks = tracksData.length ? tracksData : emptyMessage;
-      this.setState({ tracks, loading: false });
+      const emptyTracksMessage = [{ name: 'No Tracks Found' }];
+      const tracks = tracksData.length ? tracksData : emptyTracksMessage;
+      const summary = summaryData.substr(0, summaryData.indexOf('<a'));
+
+      this.setState({ tracks, summary, loading: false });
     })();
   }
 
+
   render() {
     const { classes, match: { params: { artist, record } } } = this.props;
-    const { loading, tracks } = this.state;
+    const { loading, summary, tracks } = this.state;
 
     return (
       <div>
@@ -121,20 +127,32 @@ class LinerNotes extends React.Component {
                 </Link>
                 <p className={ classes.linerSubtitle }>{ user.firstname } { user.lastname }</p>
                 <Divider />
-                <p className={ classes.notes }>
-                  <span className={ classes.quotes }>
-                    &quot;
-                    &nbsp;
-                  </span>
-                  { recordInfo.notes[0] }
-                </p>
-                <p className={ classes.notes }>{ recordInfo.notes[1] }</p>
-                <p className={ classes.notes }>{ recordInfo.notes[2] }
-                  <span className={ classes.quotes }>
-                    &nbsp;
-                    &quot;
-                  </span>
-                </p>
+
+                { summary.length ?
+                  (
+                    <p className={ classes.notes }>
+                      { summary }
+                    </p>
+                  ) : (
+                    <span>
+                      <p className={ classes.notes }>
+                        <span className={ classes.quotes }>
+                          &quot;
+                          &nbsp;
+                        </span>
+                        { recordInfo.notes[0] }
+                      </p>
+                      <p className={ classes.notes }>{ recordInfo.notes[1] }</p>
+                      <p className={ classes.notes }>{ recordInfo.notes[2] }
+                        <span className={ classes.quotes }>
+                          &nbsp;
+                          &quot;
+                        </span>
+                      </p>
+                    </span>
+                  )
+                }
+
                 <Divider />
 
               </Grid>
