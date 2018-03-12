@@ -5,6 +5,9 @@ import { get } from 'lodash';
 import { firebaseConnect } from 'react-redux-firebase';
 import { withRouter } from 'react-router-dom';
 import * as recordActions from '../../redux/actions/creators/recordActions';
+import { reduxForm } from 'redux-form';
+import validate from 'validate.js';
+
 import Profile from './Profile';
 
 const ProfileContainer = props => (
@@ -32,10 +35,46 @@ const WrappedProfile = firebaseConnect((props) => {
   ];
 })(ProfileContainer);
 
+// schemas
+const schema = {
+  bin: {
+    presence: true,
+  },
+  artist: {
+    presence: true,
+    length:   {
+      maximum: 100,
+    },
+  },
+  record: {
+    presence: true,
+    length:   {
+      maximum: 100,
+    },
+  },
+  type: {
+    presence: true,
+  },
+
+};
+const validateForm = function (form) {
+  return validate(form, schema);
+};
+
+const handleChange = function (fields, dispatch, { stopSubmit, submitFailed }) {
+  if (submitFailed) { stopSubmit(); }
+};
+
+const WrappedProfileForm = reduxForm({
+  form:     'addRecordForm',
+  validate: validateForm,
+  onChange: handleChange,
+})(WrappedProfile);
+
 
 export default withRouter(connect(
   state => ({ firebase: state.firebase,
     data:     state.firebase.data,
   }),
   { ...recordActions },
-)(WrappedProfile));
+)(WrappedProfileForm));

@@ -74,7 +74,6 @@ class RecordSlider extends React.Component {
   render() {
     const { classes } = this.props;
     const { recordsData, loading } = this.state;
-    console.log('Records Data: ', recordsData);
 
     const sliderSettings = {
       dots:           false,
