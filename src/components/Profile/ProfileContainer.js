@@ -5,6 +5,7 @@ import { get } from 'lodash';
 import { firebaseConnect } from 'react-redux-firebase';
 import { withRouter } from 'react-router-dom';
 import * as recordActions from '../../redux/actions/creators/recordActions';
+import * as profileActions from '../../redux/actions/creators/profileActions';
 import { reduxForm } from 'redux-form';
 import validate from 'validate.js';
 
@@ -23,6 +24,12 @@ ProfileContainer.propTypes = {
   }).isRequired,
   fetchRecord: PropTypes.func.isRequired,
 };
+
+const mapStateToProps = state => ({
+  formState: state.form,
+  firebase:  state.firebase,
+  data:      state.firebase.data,
+});
 
 const WrappedProfile = firebaseConnect((props) => {
   const uid = get(props, 'firebase.auth.uid', '');
@@ -73,8 +80,6 @@ const WrappedProfileForm = reduxForm({
 
 
 export default withRouter(connect(
-  state => ({ firebase: state.firebase,
-    data:     state.firebase.data,
-  }),
-  { ...recordActions },
+  mapStateToProps,
+  { ...recordActions, ...profileActions },
 )(WrappedProfileForm));

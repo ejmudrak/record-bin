@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Field } from 'redux-form';
 import { get } from 'lodash';
 import PropTypes from 'prop-types';
+import { Map } from 'immutable';
 
 // Material UI imports
 import { Button, Grid, Icon, withStyles } from 'material-ui';
@@ -19,7 +20,7 @@ import Dialog, {
 import './Profile.css';
 import Record from './assets/record.png';
 import RecordSlider from './components/RecordSlider';
-import TextInput from '../TextInput';
+import AddRecordForm from './components/AddRecordForm';
 
 /* IDEAS & TO-DO:
     + Top 5, Top Tier, and Other Favorites bins:
@@ -50,8 +51,10 @@ class Profile extends Component {
     data:    PropTypes.shape({
       userProfile: PropTypes.instanceOf(Object),
     }).isRequired,
-    fetchRecord: PropTypes.func.isRequired,
-    fullScreen:  PropTypes.bool.isRequired,
+    fetchRecord:        PropTypes.func.isRequired,
+    formState:          PropTypes.instanceOf(Object).isRequired,
+    fullScreen:         PropTypes.bool.isRequired,
+    addRecordToProfile: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -60,6 +63,44 @@ class Profile extends Component {
     this.state = {
       addRecordOpen: false,
     };
+  }
+
+  getRecordBins = () => {
+    const { data } = this.props;
+    const uid = 'PiNBKrYbDqVswjTLq8Ormfe9epH3';
+
+    const bins = get(data, `userProfile.${uid}.bins`, []);
+
+    const items = [
+      { value: 0, label: 'Current Faves' },
+      { value: 1, label: 'Top Albums Ever' },
+    ];
+
+    return items;
+  }
+
+  getRecordTypeOptions = () => {
+    const items = [
+      { value: 'album', label: 'Album' },
+      { value: 'track', label: 'Track' },
+    ];
+
+    return items;
+  }
+
+  handleSubmit = () => {
+    const { addRecordToProfile, data, formState } = this.props;
+    const uid = 'PiNBKrYbDqVswjTLq8Ormfe9epH3';
+
+    const addRecordForm = formState.addRecordForm || {};
+    const values = addRecordForm.values || {};
+
+    const records = get(data, `userProfile.${uid}.bins.${values.bin}.records`, []);
+
+    if (!addRecordForm.syncErrors) {
+      addRecordToProfile(records, values.bin, values.artist, values.record, values.type, uid);
+    }
+    this.handleAddRecordClose();
   }
 
   handleAddRecordOpen = () => {
@@ -129,62 +170,9 @@ class Profile extends Component {
           onClose={ this.handleAddRecordClose }
           aria-labelledby='delete-field-title'>
 
-          <DialogTitle id='delete-field-title'>Add a new record to your bin!</DialogTitle>
-
-          <DialogContent>
-            <DialogContentText>
-              Select your bin, enter artist and record info, and build your collection.
-            </DialogContentText>
-
-            <Grid container spacing={ 24 }>
-
-              <Grid item xs={ 12 } >
-                <Field name='bin'
-                  label='Select A Bin'
-                  type='text'
-                  component={ TextInput }
-                  fullWidth
-                  required />
-              </Grid>
-
-              <Grid item xs={ 12 } >
-                <Field name='artist'
-                  label='Artist'
-                  type='text'
-                  component={ TextInput }
-                  fullWidth
-                  required />
-              </Grid>
-
-              <Grid item xs={ 12 } >
-                <Field name='record'
-                  label='Record'
-                  type='text'
-                  component={ TextInput }
-                  fullWidth
-                  required />
-              </Grid>
-
-              <Grid item xs={ 12 } >
-                <Field name='type'
-                  label='Select record type'
-                  type='text'
-                  component={ TextInput }
-                  fullWidth
-                  required />
-              </Grid>
-
-            </Grid>
-          </DialogContent>
-
-          <DialogActions>
-            <Button onClick={ this.handleAddRecordClose } color='primary' autoFocus>
-              Cancel
-            </Button>
-            <Button variant='raised' color='primary' onClick={ this.handleAddRecord } >
-              Add Record
-            </Button>
-          </DialogActions>
+          <AddRecordForm binRecords={ records }
+            handleAddRecordClose={ this.handleAddRecordClose }
+            handleSubmit={ this.handleSubmit } />
         </Dialog>
       </Grid>
     );

@@ -38,7 +38,7 @@ class TextInput extends Component {
     if (this.shouldDisplayError()) {
       element = (
         <FormHelperText className={ errorClassName } error>
-          { error }
+          { error[0] }
         </FormHelperText>
       );
     }
